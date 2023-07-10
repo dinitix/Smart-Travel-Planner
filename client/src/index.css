@@ -1,0 +1,120 @@
+@font-face {
+	font-family: "SF Pro Display-Regular";
+	font-style: normal;
+	font-weight: 400;
+	src: url("./fonts/SFPro-Display-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "SF Pro Display-Medium";
+	font-style: normal;
+	font-weight: 500;
+	src: url("./fonts/SFPro-Medium.otf") format("opentype");
+}
+
+@font-face {
+	font-family: "SF Pro Display-Bold";
+	font-style: normal;
+	font-weight: 500;
+	src: url("./fonts/SFPro-Bold.ttf") format("truetype");
+}
+
+
+body {
+	font-family: "SF Pro Display-Regular";
+}
+
+h1 {
+	font-family: "SF Pro Display-Medium";
+	font-size: 40px !important;
+	margin-top: 0px;
+	margin-bottom: 20px;
+}
+
+p {
+	font-family: "SF Pro Display-Regular";
+	margin-top: 0px;
+	margin-bottom: 8px;
+}
+
+.fw-medium {
+	font-family: "SF Pro Display-Medium";
+}
+
+h2 {
+	font-family: "SF Pro Display-Regular";
+	font-size: 39px !important;
+	margin-bottom: 8px;
+}
+
+.ant-form label {
+	font-family: "SF Pro Display-Medium";
+	font-size: 18px !important;
+	margin-bottom: 8px;
+}
+
+
+:where(.css-dev-only-do-not-override-12upa3x)[class*=" ant-form"] {
+	font-family: "SF Pro Display-Regular";
+	font-size: 16px !important;
+
+}
+
+.p {
+	font-family: "SF Pro Display-Regular";
+	font-size: 16px !important;
+	margin-bottom: 8px;
+}
+
+.text-align-left {
+	text-align: left;
+	font-family: "SF Pro Display-Regular";
+}
+
+.text-align-center {
+	text-align: center !important;
+	font-family: "SF Pro Display-Regular";
+}
+
+.space {
+	background-color: #005fbd !important;
+}
+
+.innter-form-section {
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+.ant-input {
+	font-family: "SF Pro Display-Regular";
+}
+
+
+:where(.css-dev-only-do-not-override-12upa3x)[class^="ant-btn"],
+:where(.css-dev-only-do-not-override-12upa3x)[class*=" ant-btn"] {
+
+	font-family: "SF Pro Display-Medium";
+	font-size: 16px !important;
+}
+
+.notification-btn {
+	font-family: "SF Pro Display-Regular";
+	padding: 4px 8px;
+	background-color: #1677ff;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.ant-notification-notice-message {
+	font-family: "SF Pro Display-Regular";
+}
+
+.ant-notification-notice-description {
+	font-family: "SF Pro Display-Regular";
+}
