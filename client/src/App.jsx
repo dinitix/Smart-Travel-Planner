@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-route
 import SignUp from './pages/user/Signup';
 import Login from './pages/user/Login';
 import Home from './pages/user/home';
-import Admin from './pages/admin/admin';
+import Admin from './pages/admin/Admin';
 
 
 // Custom component to validate admin access
