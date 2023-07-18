@@ -2,7 +2,9 @@ import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-route
 import SignUp from './pages/user/Signup';
 import Login from './pages/user/Login';
 import Home from './pages/user/home';
-import Admin from './pages/admin/Admin';
+import Admin from './pages/admin/admin';
+import Account from './pages/Account';
+
 
 
 // Custom component to validate admin access
@@ -18,6 +20,7 @@ const AdminRouteGuard = () => {
 };
 
 
+
 function App() {
   return (
     <div className="App">
@@ -27,6 +30,7 @@ function App() {
           <Route path="/login" element={<Login />} exact />
           <Route path="/home" element={<Home />} exact />
           <Route path="/admin/*" element={<AdminRouteGuard />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
       </BrowserRouter>
     </div>
