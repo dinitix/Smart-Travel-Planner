@@ -5,7 +5,7 @@ import { Table, Modal, Form, Input } from 'antd';
 import CreatePlace from './CreatePlace';
 import Swal from 'sweetalert2'
 
-function Place() {
+function Place() { 
 
     const [activeTab, setActiveTab] = useState('create blog');
     const [places, setplaces] = useState([])
@@ -236,7 +236,6 @@ function Place() {
                 )}
             </div>
             <Modal
-
                 visible={isModalVisible}
                 onCancel={closeModal}
                 onOk={handleEditSubmit}
