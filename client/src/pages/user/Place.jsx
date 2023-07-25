@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from "../../components/navbar/MainNavbar";
 import "../../css/palnTrip.css";
 import "../../css/place.css";
-import { Carousel, Col, Modal } from "antd";
+import { Carousel, Col, Modal, Button } from "antd";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import weather1 from "../../assets/cloud.png";
@@ -15,8 +15,16 @@ import Drizzle from "../../assets/drizzle.png";
 import Mist from "../../assets/mist.png";
 import humidity from "../../assets/humidity.png";
 import Windy from "../../assets/windx.png";
+import { HeartOutlined, HeartFilled, FireOutlined, FireFilled } from "@ant-design/icons";
+import UserFooter from '../../components/footer/UserFooter';
+
+
 
 function Place() {
+
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+
+
 
   let params = useParams();
   const [place, setPlace] = useState({})
@@ -31,6 +39,7 @@ function Place() {
 
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState({});
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -38,10 +47,7 @@ function Place() {
 
     (async () => {
 
-      if (!localStorage.getItem('currentUser')) {
-        window.location.reload = '/login'
 
-      }
 
       try {
         const data = (await axios.post("/api/places/getplacebyid", { placeid: params.placeid })).data
@@ -94,6 +100,88 @@ function Place() {
   }, [weather]);
 
 
+  useEffect(() => {
+
+    const checkSavedStatus = async () => {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+
+      if (user) {
+        const userId = user._id;
+        try {
+          const { data: { hasSaved } } = await axios.post('/api/users/check-save', { placeId: params.placeid, userId });
+          setSaved(hasSaved);
+        } catch (error) {
+          console.error('Error checking saved status:', error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    const checkLikedStatus = async () => {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+
+      if (user) {
+        const userId = user._id;
+        try {
+          const { data: { hasLiked } } = await axios.post('/api/places/check-like', { placeId: params.placeid, userId });
+          setLiked(hasLiked);
+        } catch (error) {
+          console.error('Error checking liked status:', error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+
+    checkSavedStatus();
+    checkLikedStatus();
+  }, [params.placeid]);
+
+
+  useEffect(() => {
+    // Check if the user has already liked the place
+    const checkSavedStatus = async () => {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+
+      if (user) {
+        const userId = user._id;
+        try {
+          const { data: { hasSaved } } = await axios.post('/api/users/check-save', { placeId: params.placeid, userId });
+          setSaved(hasSaved);
+        } catch (error) {
+          console.error('Error checking saved status:', error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    const fetchDataAndCheckSavedStatus = async () => {
+      try {
+
+        const data = await axios.post('/api/users/getuserbyid', { userid: user._id });
+        setPlace(data.place[0]);
+        setSearch(data.place[0].city);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      } finally {
+        setLoading(false);
+        checkSavedStatus();
+      }
+    };
+
+    fetchDataAndCheckSavedStatus();
+  }, [user._id, params.placeid]);
+
+
 
 
 
@@ -106,6 +194,60 @@ function Place() {
     setIsModalVisible(false);
   };
 
+  const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
+  let likes = place.likes;
+
+  const handleLikeButtonClick = async () => {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!user) {
+      window.location.href = "/login";
+      return;
+    }
+
+    try {
+      const userId = user._id;
+      if (liked) {
+        await axios.post("/api/places/unlike", { placeId: params.placeid, userId });
+        setPlace((prevPlace) => ({ ...prevPlace, likes: Math.max(prevPlace.likes - 1, 0) }));
+      } else {
+        await axios.post("/api/places/like", { placeId: params.placeid, userId });
+        setPlace((prevPlace) => ({ ...prevPlace, likes: prevPlace.likes + 1 }));
+      }
+      setLiked((prevLiked) => !prevLiked);
+    } catch (error) {
+      console.error("Error liking/unliking place:", error);
+    }
+  };
+
+
+  const handleSaveButtonClick = async () => {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!user) {
+      window.location.href = "/login";
+      return;
+    }
+
+    try {
+      const userId = user._id;
+      if (saved) {
+        console.log("Not Saved")
+        await axios.post("/api/users/unsave", { placeId: params.placeid, userId });
+      } else {
+        console.log("Saved")
+        await axios.post("/api/users/save", { placeId: params.placeid, userId });
+      }
+      setSaved((prevSaved) => !prevSaved);
+    } catch (error) {
+      console.error("Error saving/unsaving place:", error);
+    }
+  };
+
+
+  const likedColor = "#e4264e";
+
   return (
 
 
@@ -116,15 +258,38 @@ function Place() {
         <div>
           <img className="place-cover" src={`/uploads/${params.placeid}-0.jpg`} alt="" />
         </div>
+
+
+        <div className="place-cover-save">
+
+          <a onClick={() => handleSaveButtonClick()}>
+            {saved ? <FireFilled className="saved-fire" /> : <FireOutlined className="size-fire" />}
+
+          </a>
+
+
+        </div>
+
+
         <div className="place-cover-details">
           <h1>Welcome to {place.name}</h1>
           <p>Enjoy your vacation here</p>
           <div>
-            <img className="fuction-icons" src={weather1} alt="" onClick={handleModalOpen} />
+            <img className="fuction-icons " src={weather1} alt="" onClick={handleModalOpen} />
             <a href={place.googlemaplink} target="_blank" rel="noopener noreferrer">
               <img className="fuction-icons" src={Map} alt="" />
             </a>
-            <img className="fuction-icons" src={Save} alt="" />
+            <div className="like-button-container">
+              <Button
+                icon={liked ? <HeartFilled className="liked-heart" /> : <HeartOutlined />}
+                onClick={() => handleLikeButtonClick()}
+              >
+                <span style={{ color: liked ? likedColor : "inherit" }}>
+                  {likes} Likes
+                </span>
+              </Button>
+
+            </div>
           </div>
         </div>
         <div className="place-page-content">
@@ -192,6 +357,7 @@ function Place() {
           ""
         )}
       </Modal>
+      <UserFooter />
     </div>
 
 
