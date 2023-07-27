@@ -10,9 +10,27 @@ const tripSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    tripnote: {
+        type: String,
+        required: true
+    },
+    tripdays: {
+        type: String,
+        required: true
+    },
+    tripbudget: {
+        type: String,
+        required: true
+    },
     do: [],
     eat: [],
     stay: [],
+
+    isComplete: {
+        type: Boolean,
+        default: false
+    },
+
 
 }, {
     timestamps: true,
