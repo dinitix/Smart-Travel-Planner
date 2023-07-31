@@ -33,7 +33,6 @@ function Account() {
 	const [city, setCity] = useState("");
 	const [gender, setGender] = useState("");
 	const [phone, setPhone] = useState("");
-	const [birthday, setBirthday] = useState("");
 	const [address, setAddress] = useState("");
 	const [preferences, setPreferences] = useState([]);
 	const { location } = window;
@@ -54,7 +53,6 @@ function Account() {
 				setCity(data.hometown);
 				setPhone(data.phonenumber);
 				setGender(data.gender);
-				setBirthday(data.birthday);
 				setAddress(data.address);
 				const flatPreferences = data.favhotles.flat();
 				setPreferences(flatPreferences);
@@ -66,7 +64,7 @@ function Account() {
 	}, []);
 
 
-	async function changeUserDetails(name, city, gender, phone, birthday, address, preferences) {
+	async function changeUserDetails(name, city, gender, phone, address, preferences) {
 		const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 		if (!currentUser) throw new Error('User not found in local storage');
 
@@ -78,7 +76,6 @@ function Account() {
 				city,
 				gender,
 				phone,
-				birthday,
 				address,
 				preferences: [preferences]
 			});
@@ -100,7 +97,6 @@ function Account() {
 			setCity(values.city);
 			setGender(values.gender);
 			setPhone(values.phone);
-			setBirthday(values.birthday);
 			setAddress(values.address);
 			setPreferences(values.preferences);
 
@@ -119,7 +115,6 @@ function Account() {
 				setCity(values.city);
 				setGender(values.gender);
 				setPhone(values.phone);
-				setBirthday(values.birthday);
 				setAddress(values.address);
 				setPreferences(values.preferences);
 
@@ -128,7 +123,6 @@ function Account() {
 					values.city,
 					values.gender,
 					values.phone,
-					values.birthday.format('YYYY-MM-DD'),
 					values.address,
 					values.preferences
 				);
@@ -193,27 +187,19 @@ function Account() {
 
 	const [form] = Form.useForm();
 	const [formLayout, setFormLayout] = useState("horizontal");
-	const onFormLayoutChange = ({ layout, birthday }) => {
-		setFormLayout(layout);
-		if (birthday) {
-			setBirthday(birthday.format("YYYY-MM-DD"));
-		}
-	};
+	
 
 	const initialValues = {
 		Name: name,
 		city: city,
 		gender: gender,
 		phone: phone,
-		birthday: birthday,
-		birthday: birthday ? moment(birthday, "YYYY-MM-DD") : null,
 		address: address,
 		preferences: preferences,
 	};
 
 	form.setFieldsValue(initialValues);
 
-	const formattedBirthday = moment(birthday).format("MM/DD/YYYY");
 
 
 	const formItemLayout =
@@ -245,7 +231,7 @@ function Account() {
 	const { RangePicker } = DatePicker;
 	const { TextArea } = Input;
 
-	const birthdayPlaceholder = moment(birthday).format("YYYY-MM-DD");
+	
 	const formattedPreferences = preferences.map((pref) => "#" + pref + " " + " ");
 
 
@@ -256,7 +242,6 @@ function Account() {
 		setCity(values.city);
 		setGender(values.gender);
 		setPhone(values.phone);
-		setBirthday(values.birthday);
 		setAddress(values.address);
 		setPreferences(values.preferences);
 	};
@@ -289,12 +274,12 @@ function Account() {
 						{...formItemLayout}
 						layout={formLayout}
 						form={form}
-						onChange={onSaveButtonClick}
+						// onChange={onSaveButtonClick}
 						initialValues={{
 							layout: formLayout,
 						}}
 						autoComplete="off"
-						onValuesChange={onFormLayoutChange}
+						
 					>
 						<div className="form-coloums">
 							<Col span={12}>
@@ -376,27 +361,14 @@ function Account() {
 										suffix={<LockOutlined style={{ color: "#aaa" }} />}
 									/>
 								</Form.Item>
-								<Form.Item
-									name="birthday"
-									rules={[
-										{
-											type: "object",
-											required: true,
-											message: "Please select your birthday!",
-										},
-									]}
-								>
-									<label>Birthday</label>
-									<DatePicker
-										placeholder={birthdayPlaceholder}
-										disabled={!editMode}
-										defaultValue={birthday ? moment(new Date(birthday)) : null}
-										onChange={(date, dateString) => {
-											const birthdayDate = moment(date).toDate();
-											setBirthday(birthdayDate);
-										}}
-									/>
-								</Form.Item>
+
+
+
+				
+
+
+
+
 
 								<Form.Item
 									name="address"

@@ -12,7 +12,7 @@ function Place({ place }) {
                 <Card
                     span={6}
                     hoverable
-                    cover={<img className='palce-card-image' src={`/uploads/${place._id}-0.jpg`} alt={place.name} />}
+                    cover={<img className='palce-card-image' src={`/uploads/${place._id}-0.jpg`} alt={place.name} />}    //show index=0 images as cover
                 >
                     <div className='place-card-p'>
                         <p>{place.name}</p>
@@ -32,17 +32,17 @@ function Stay() {
     const placesPerPage = 8;
     const [currentPage, setCurrentPage] = useState(1);
 
-    useEffect(() => {
+    useEffect(() => {                            //by using useeffect hook calling all places
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/places/getallplaces');
-                const data = response.data;
-                const stayPlaces = data.places.filter(place => place.category === 'Stay');
+                const response = await axios.get('/api/places/getallplaces');               //calling get all places API (create constant as response for received data)
+                const data = response.data;                                                 //save received data(response.data) as data
+                const stayPlaces = data.places.filter(place => place.category === 'Stay');  //filter category==stay places from all the places)
                 setPlaces(stayPlaces);
                 setFilteredPlaces(stayPlaces);
                 setTimeout(() => {
                     setIsLoading(false);
-                    setShowSpinner(false);
+                    setShowSpinner(false);                 //until spend 1500ms close showspinner
                 }, 1500);
             } catch (error) {
                 console.log(error);
@@ -56,7 +56,7 @@ function Stay() {
 
     return (
         <div>
-            {showSpinner ? (
+            {showSpinner ? (                           //show the spinner(1.5s)
                 <div className="spinner-container">
                     <ScaleLoader color="#2e96d6" />
                 </div>
@@ -64,7 +64,7 @@ function Stay() {
                 <div className="blogscreen-content">
                     <Row >
                         {filteredPlaces
-                            .slice((currentPage - 1) * placesPerPage, currentPage * placesPerPage)
+                            .slice((currentPage - 1) * placesPerPage, currentPage * placesPerPage)     //if have many places first loading 8 and then again 8
                             .map(place => (
                                 <Col key={place.id} span={6} className='palce-card' > 
                                     <Place place={place} />

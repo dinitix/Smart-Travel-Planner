@@ -10,10 +10,10 @@ function Admin() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [activeTab, setActiveTab] = useState('places');
+    const [activeTab, setActiveTab] = useState('places');  //by default places tab when open admin 
 
     useEffect(() => {
-        const newActiveTab = location.pathname.split('/').pop();
+        const newActiveTab = location.pathname.split('/').pop();   //reemove places
         setActiveTab(newActiveTab);
     }, [location]);
 

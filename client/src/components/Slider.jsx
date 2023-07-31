@@ -21,11 +21,11 @@ const Slider = () => {
 	const [searchValue, setSearchValue] = useState("");
 	const [showHoverAlert, setShowHoverAlert] = useState(false);
 
-	const handleSearch = () => {
-		if (searchValue.trim() === "") {
+	const handleSearch = () => {                          //search functions
+		if (searchValue.trim() === "") {                  //If search bar is empty go to showHoverAlert(65)
 			setShowHoverAlert(true);
 		} else {
-			setShowHoverAlert(false);
+			setShowHoverAlert(false);                    //If not go to plan trip
 			navigate(`/plantrip`, { state: { search: searchValue } });
 		}
 	};
@@ -62,7 +62,7 @@ const Slider = () => {
 				<div className="search-bar">
 					<Tooltip
 						visible={showHoverAlert}
-						title="Please enter your destination"
+						title="Please enter your destination"            
 						placement="bottom"
 					>
 						<Input

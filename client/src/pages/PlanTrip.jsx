@@ -293,15 +293,15 @@ function PlanTrip() {
 				onCancel={handleModalCancel}
 			>
 				<div className="trip-modal-label">Setup Your Trip</div>
-				<Form.Item
-					className="trip-modal-upload">
-					<ImageUploader1 onImageUpload={onImageUpload} />
+				<Form.Item                                                     //creating trip form
+					className="trip-modal-upload">                             
+					<ImageUploader1 onImageUpload={onImageUpload} />          
 
 				</Form.Item>
 
 				<Form.Item>
 					<Input
-						placeholder="What is your trip name?"
+						placeholder="Give a name for your trip."
 						value={tripName}
 						maxLength={40}
 						onChange={(e) => setTripName(e.target.value)}
@@ -327,7 +327,7 @@ function PlanTrip() {
 
 				<Form.Item>
 					<Input
-						placeholder="How much you want to spend?"
+						placeholder="How much is your budget?"
 						value={tripBudget}
 						onChange={(e) => setTripBudget(e.target.value)}
 					/>

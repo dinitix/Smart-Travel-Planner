@@ -5,7 +5,7 @@ const Place = require("../models/place");
 
 
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req, res) => {        //user register API
     const { email, password } = req.body;
 
     try {
@@ -24,21 +24,22 @@ router.post("/register", async (req, res) => {
 
 
 
-router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
+router.post("/login", async (req, res) => {               //User Login API
+    const { email, password } = req.body;                 //get email & password from req body(login function)
 
     try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ email: email });   //check whether this email & password stored in DB
 
-        if (user) {
+        if (user) {                                         //then fill user with bolow data
             if (user.password === password) {
-                const temp = {
+
+                const temp = {                             //this data take from DB and save to a temp
                     name: user.name,
                     email: user.email,
                     isAdmin: user.isAdmin,
                     _id: user._id,
                 };
-                res.send(temp);
+                res.send(temp);                           //send data to the login from a respond
             } else {
                 return res.status(400).json({ message: 'Password incorrect' });
             }
@@ -51,7 +52,7 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.get("/getallusers", async (req, res) => {
+router.get("/getallusers", async (req, res) => {            //get all users API
 
     try {
         const users = await User.find({})
@@ -63,7 +64,7 @@ router.get("/getallusers", async (req, res) => {
 });
 
 
-router.patch('/changeadmin', async (req, res) => {
+router.patch('/changeadmin', async (req, res) => {           //change admin API
 
     const { _id, isAdmin } = req.body;
 
@@ -81,7 +82,7 @@ router.patch('/changeadmin', async (req, res) => {
 });
 
 
-router.post("/getuserbyid", async (req, res) => {
+router.post("/getuserbyid", async (req, res) => {        //get user by ID API
 
     const userid = req.body.userid
 
@@ -96,8 +97,8 @@ router.post("/getuserbyid", async (req, res) => {
 });
 
 
-router.patch("/updateuser", async (req, res) => {
-    const { _id, name, city, gender, phone, birthday, address, preferences } = req.body;
+router.patch("/updateuser", async (req, res) => {                  //update user API
+    const { _id, name, city, gender, phone, address, preferences } = req.body;
 
     try {
         const user = await User.findById(_id);
@@ -106,7 +107,6 @@ router.patch("/updateuser", async (req, res) => {
         user.hometown = city;
         user.gender = gender;
         user.phonenumber = phone;
-        user.birthday = new Date(birthday);
         user.address = address;
         user.favhotles = preferences;
         if (Array.isArray(preferences) && preferences.length > 0) {
@@ -122,7 +122,7 @@ router.patch("/updateuser", async (req, res) => {
 });
 
 
-router.post('/save', async (req, res) => {
+router.post('/save', async (req, res) => {       //save place API
     const { placeId, userId } = req.body;
 
     try {
@@ -146,7 +146,7 @@ router.post('/save', async (req, res) => {
 });
 
 
-router.post('/unsave', async (req, res) => {
+router.post('/unsave', async (req, res) => {           //unsave place API
     const { placeId, userId } = req.body;
 
     try {
@@ -171,7 +171,7 @@ router.post('/unsave', async (req, res) => {
 });
 
 
-router.post('/check-save', async (req, res) => {
+router.post('/check-save', async (req, res) => {        //check save API
     const { placeId, userId } = req.body;
 
     try {
@@ -191,7 +191,7 @@ router.post('/check-save', async (req, res) => {
 
 
 
-router.get("/getfavlocations", async (req, res) => {
+router.get("/getfavlocations", async (req, res) => {          //get favourite locations API
     const userId = req.query.userId;
 
     try {

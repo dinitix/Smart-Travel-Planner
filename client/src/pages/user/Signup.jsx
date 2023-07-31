@@ -20,7 +20,7 @@ const SignUp = () => {
     const [profile, setProfile] = useState(null)
 
     const handlePrivacyPolicyChange = (e) => {
-        setIsPrivacyPolicyChecked(e.target.checked);
+        setIsPrivacyPolicyChecked(e.target.checked);           //check whether privacy policy clicked from e.target.checked command
     };
 
     const onLoginStart = useCallback(() => {
@@ -40,15 +40,15 @@ const SignUp = () => {
         return password;
     };
 
-    const register = async () => {
-        if (password === confirmPassword) {
+    const register = async () => {                          //After clicking signup button this const register function happen
+        if (password === confirmPassword) {                 //first check whether password and confirm password is matched
             const user = {
                 email,
                 password,
             };
             try {
                 setLoading(true);
-                const result = await axios.post('/api/users/register', user);
+                const result = await axios.post('/api/users/register', user);                //calling register API
                 setLoading(false);
                 window.location.href = '/login'
             } catch (error) {
@@ -108,7 +108,7 @@ const SignUp = () => {
         return Promise.resolve();
     };
 
-    return (
+    return (                                                                                    //signup page structure
         <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]} className="space">
             <Layout>
                 <Content>
@@ -122,8 +122,8 @@ const SignUp = () => {
                                     Sign in to start managing your bookings.
                                 </p>
 
-                                <Form
-                                    style={{
+                                <Form                                           //signup Form
+                                    style={{                                 
                                         maxWidth: 600,
                                     }}
                                     initialValues={{
@@ -132,19 +132,19 @@ const SignUp = () => {
                                     onFinish={onFinish}
                                     onFinishFailed={onFinishFailed}
                                     autoComplete="off"
-                                >
-                                    <div className="m-8">
-                                        <label className="text-align-left m-8">Email</label>
+                                >                                                          
+                                    <div className="m-8">                                        
+                                        <label className="text-align-left m-8">Email</label>             
                                     </div>
                                     <div>
                                         <Form.Item
-                                            name="Email"
+                                            name="Email"                                       //getting email
                                             rules={[
                                                 {
                                                     required: true,
                                                     message: 'Please input your email',
                                                 },
-                                                {
+                                                {                  
                                                     validator: validateEmail,
                                                 },
                                             ]}
@@ -153,10 +153,10 @@ const SignUp = () => {
                                         </Form.Item>
                                     </div>
                                     <div className="m-8">
-                                        <label className="text-align-left m-8">Password</label>
+                                        <label className="text-align-left m-8">Password</label>          
                                     </div>
                                     <Form.Item
-                                        name="password"
+                                        name="password"                                        //getting password
                                         rules={[
                                             {
                                                 required: true,
@@ -173,7 +173,7 @@ const SignUp = () => {
                                         <label className="text-align-left m-8">Confirm password</label>
                                     </div>
                                     <Form.Item
-                                        name="Confirm password"
+                                        name="Confirm password"                          //confirming password
                                         rules={[
                                             {
                                                 required: true,
@@ -190,8 +190,8 @@ const SignUp = () => {
                                     </Form.Item>
                                     <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
                                         <div className="signup-agree-label">
-                                            <Checkbox
-                                                checked={isPrivacyPolicyChecked}
+                                            <Checkbox                                            //privacy policy check box
+                                                checked={isPrivacyPolicyChecked}                 //check whether check box is clicked
                                                 onChange={handlePrivacyPolicyChange}
                                             >
                                                 I agree with <a href="#PrivacyPolicy">Privacy Policy</a>
@@ -201,7 +201,7 @@ const SignUp = () => {
                                             className="login-btn"
                                             type="primary"
                                             htmlType="submit"
-                                            disabled={!isPrivacyPolicyChecked}
+                                            disabled={!isPrivacyPolicyChecked}           //disable signup button if didn't click privacy policy check box
                                         >
                                             Sign up
                                         </Button>

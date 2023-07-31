@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-const ImageUploader = ({ index, onImageUpload }) => {
+const ImageUploader = ({ index, onImageUpload }) => {            //select a photo and save
     const [fileList, setFileList] = useState([]);
 
     const handleChange = ({ file, fileList: newFileList }) => {

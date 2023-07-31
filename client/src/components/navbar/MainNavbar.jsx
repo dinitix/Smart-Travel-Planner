@@ -43,8 +43,8 @@ class Navbar extends Component {
 	render() {
 		const { isMobileView } = this.state;
 
-		const user = JSON.parse(localStorage.getItem('currentUser'));
-		const isAdmin = user && user.isAdmin;
+		const user = JSON.parse(localStorage.getItem('currentUser'));        //get current user from local storage
+		const isAdmin = user && user.isAdmin;                                //if the user is admin
 
 		return (
 			<nav className="menuBar">
@@ -54,23 +54,24 @@ class Navbar extends Component {
 					</a>
 				</div>
 				<div className="menuCon">
+
 					{!isMobileView && ( // Render LeftMenu and RightMenu only in desktop view
 						<>
-							{!isAdmin && (
+							{!isAdmin && (                       //if user not and admin go to leftmenu
 								<div className="leftMenu">
 									<LeftMenu />
 								</div>
 
 							)}
 
-							{isAdmin && (
+							{isAdmin && (                       //if user is admin go to admin menu
 								<div className="leftMenu">
 									<AdminMenu />
 								</div>
 
 							)}
 
-							<div className="rightMenu">
+							<div className="rightMenu">        
 								<RightMenu />
 							</div>
 						</>

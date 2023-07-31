@@ -13,7 +13,7 @@ function Home() {
 	return (
 		<div className="Home">
 			<Navbar></Navbar>
-			<Slider></Slider>
+			<Slider></Slider>                                         
 			<h2 className="text-align-center">Explore Sri Lanka</h2>
 			<Row className="main-container-padding">
 

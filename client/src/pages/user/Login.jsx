@@ -32,22 +32,22 @@ const Login = () => {
 		console.log('Failed:', errorInfo);
 	};
 
-	async function login() {
-		const user = {
+	async function login() {                        //function of login
+		const user = {                          //get email & password    
 			email,
 			password,
 		};
 		try {
 			setLoading(true);
-			const { data, status } = await axios.post('/api/users/login', user);
+			const { data, status } = await axios.post('/api/users/login', user);     //calling Login API
 			setLoading(false);
 
-			if (status === 200) {
+			if (status === 200) {                                            //If successfully sent and received data from login API
 				localStorage.setItem('currentUser', JSON.stringify(data));
-				if (data.isAdmin) {
-					window.location.href = '/admin/places';
+				if (data.isAdmin) {                                          //checked whether user is admin or not
+					window.location.href = '/admin/places';                  //if yes go to admin/places
 				} else {
-					window.location.href = '/home';
+					window.location.href = '/home';                          //else go to home
 				}
 			} else {
 				handleLoginFailedNotification('Login failed. Please try again.');

@@ -34,7 +34,7 @@ function Place() {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const api = {
+  const api = {                                               //open whether api
     key: "73ca22a9518c8d51001d8e5302826917",
     base: "https://api.openweathermap.org/data/2.5/",
   };
@@ -85,13 +85,13 @@ function Place() {
   }, [params.placeid]);
 
 
-
+//use effect hook foe fetching whether api data
   useEffect(() => {
     if (search) {
-      fetch(`${api.base}weather?q=${search}&units=metric&APPID=${api.key}`)
+      fetch(`${api.base}weather?q=${search}&units=metric&APPID=${api.key}`)   //send url,search value,api key   
         .then((res) => res.json())
         .then((result) => {
-          setWeather(result);
+          setWeather(result);              //save result as setWhether
         })
         .catch((error) => {
           console.error('Error fetching weather data:', error);
@@ -100,7 +100,7 @@ function Place() {
   }, [search]);
 
 
-  useEffect(() => {
+  useEffect(() => {                                                       //defining whether type
     if (weather && weather.weather && weather.weather.length > 0) {
       let imagePath = '';
       if (weather.weather[0].main === "Clouds") {
@@ -214,7 +214,8 @@ function Place() {
     setIsModalVisible(false);
   };
 
-  const [liked, setLiked] = useState(false);
+  //state for check whether liked or not and whether saved or not a place
+  const [liked, setLiked] = useState(false);       //if setlike=true then (liked)
   const [saved, setSaved] = useState(false);
   let likes = place.likes;
 
@@ -336,10 +337,10 @@ function Place() {
       <Navbar></Navbar>
 
       <div>
-        <div>
-          <img className="place-cover" src={`/uploads/${params.placeid}-0.jpg`} alt="" />
+        <div>                                 
+          <img className="place-cover" src={`/uploads/${params.placeid}-0.jpg`} alt="" />    
         </div>
-
+                                                                       
 
         <div className="place-cover-save">
 
@@ -362,7 +363,7 @@ function Place() {
             </a>
             <div className="like-button-container">
               <Button
-                icon={liked ? <HeartFilled className="liked-heart" /> : <HeartOutlined />}
+                icon={liked ? <HeartFilled className="liked-heart" /> : <HeartOutlined />}  //if liked=hert filled,if not outlined the heart
                 onClick={() => handleLikeButtonClick()}
               >
                 <span style={{ color: liked ? likedColor : "inherit" }}>
@@ -397,7 +398,7 @@ function Place() {
             </div>
           </div>
 
-        </div>
+        </div>                                        
         <div className='place-reviews'>
           <h1> Reviews</h1>
 
@@ -426,7 +427,7 @@ function Place() {
 
           <div className="review-card-write">
 
-            <Form.Item
+            <Form.Item                                 //review form
               name="rate"
             >
               <Rate style={{ fontSize: '25px' }} onChange={setValue} value={value} />

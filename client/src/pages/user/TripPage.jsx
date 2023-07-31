@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import UserFooter from '../../components/footer/UserFooter'
 import Navbar from '../../components/navbar/MainNavbar'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Card, Col } from 'antd';
 import Slider from "react-slick";
+import { useReactToPrint } from "react-to-print";
 
 
 function Place({ place }) {
@@ -30,6 +31,13 @@ function Place({ place }) {
 function TripPage() {
 
     let params = useParams();
+
+    const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "Trip Plan",
+  });
+    
 
     const [trips, setTrips] = useState([]);
     const [doPlaces, setDoPlaces] = useState([]);
@@ -125,8 +133,8 @@ function TripPage() {
         <div className='place-page'>
             <Navbar></Navbar>
 
-            <div>
-                <div>
+            <div ref={componentRef}>
+                <div >
                     <img className="place-cover" src={`/uploads/${params.tripid}.jpg`} alt="" />
                 </div>
 
@@ -175,8 +183,15 @@ function TripPage() {
                     </Slider>
                 </div>
 
-
-
+<div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                                    <Button
+                                      
+                                      onClick={handlePrint}
+                                      style={{ marginBottom: "30px" }}
+                                    >
+                                      Print the Trip Plan
+                                    </Button>
+                             </div>
             </div>
             <UserFooter />
         </div>

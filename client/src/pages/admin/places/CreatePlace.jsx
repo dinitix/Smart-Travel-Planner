@@ -9,9 +9,9 @@ function CreatePlace() {
 
     const user = JSON.parse(localStorage.getItem("currentUser"))
 
-    const [imageurls, setImageurls] = useState(Array(7).fill(''));
+    const [imageurls, setImageurls] = useState(Array(7).fill(''));       //getting array for 7 URL s that have images
 
-    const onImageUpload = (index, imageFile) => {
+    const onImageUpload = (index, imageFile) => {       //uploading images
         setImageurls((prevImageurls) => {
             const newImageurls = [...prevImageurls];
             newImageurls[index] = imageFile;
@@ -22,7 +22,7 @@ function CreatePlace() {
 
     const { Option } = Select;
 
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');     //save variables
 
     const [title, settitle] = useState('')
     const [description, setdescription] = useState('')
@@ -35,7 +35,7 @@ function CreatePlace() {
 
 
 
-    const categories = [
+    const categories = [               //category dropdown
         'Do',
         'Eat',
         'Stay',
@@ -102,7 +102,7 @@ function CreatePlace() {
         <div>
 
             <div className='slide2'>
-                <div className="crb-slide2-content-wrapper">
+                <div className="crb-slide2-content-wrapper">  
 
                     <div className="crb-s2-header">
                         <h1>Upload your images:</h1>
@@ -111,15 +111,15 @@ function CreatePlace() {
                         <div className="scrb-s2-iu-wrapper">
                             {Array(7)
                                 .fill(0)
-                                .map((_, index) => (
-                                    <ImageUploader key={index} index={index} onImageUpload={onImageUpload} />
-                                ))}
+                                .map((_, index) => (   
+                                    <ImageUploader key={index} index={index} onImageUpload={onImageUpload} />    //array of image uploading(7 times)
+                                ))}                                                                             
                         </div>
                     </div>
 
-
-                    <Form>
-                        <div className="">
+                
+                    <Form>                                                                              
+                        <div className="">                     
                             <div className='categort-align'>
                                 <Form.Item
                                     className='-conatiner-p'
@@ -275,12 +275,13 @@ function CreatePlace() {
                         </div>
                     </Form>
                     <div className="crb-s2-blog-create-btn">
-                        <button className='crb-slide1-roomslect-down-btn' onClick={createblog}>Create</button>
+                        <button className='crb-slide1-roomslect-down-btn' onClick={createblog}>Create</button>       
                     </div>
                 </div>
 
             </div>
-            <UserFooter />
+            
+
         </div>
     )
 }

@@ -36,7 +36,7 @@ const ImageUploader1 = ({ onImageUpload }) => {
             onRemove={handleRemove}
             customRequest={customRequest}
             showUploadList={{
-                showPreviewIcon: false,
+                showPreviewIcon: false,       
             }}
         >
             {file ? null : uploadButton}

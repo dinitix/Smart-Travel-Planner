@@ -19,9 +19,9 @@ const upload = multer({ storage });
 
 
 
-router.post("/addplace", upload.array("images", 7), async (req, res) => {
+router.post("/addplace", upload.array("images", 7), async (req, res) => {      //Add place API
 
-    const newplace = new Place({
+    const newplace = new Place({                                     //get all data from body
         name: req.body.title,
         category: req.body.category,
         phonenumber: req.body.phone,
@@ -35,19 +35,19 @@ router.post("/addplace", upload.array("images", 7), async (req, res) => {
     });
 
     try {
-        const savedPlace = await newplace.save();
+        const savedPlace = await newplace.save();         //update image files
 
 
-        const updatedFiles = req.files.map((file, index) => {
+        const updatedFiles = req.files.map((file, index) => {      //map 0-6 for updated image files
             const oldPath = file.path;
-            const newFilename = `${savedPlace._id}-${index}.jpg`;
+            const newFilename = `${savedPlace._id}-${index}.jpg`;  //create the new file path for image files (savedpale.id_index.jpg)
             const newPath = `uploads/${newFilename}`;
             fs.renameSync(oldPath, newPath);
             return newPath;
         });
 
 
-        const imageUrls = updatedFiles.map((path) => "/uploads/" + path.split("/").pop());
+        const imageUrls = updatedFiles.map((path) => "/uploads/" + path.split("/").pop()); //saving 7 images in uploads(backend)
         savedPlace.images = imageUrls;
         await savedPlace.save();
 
@@ -61,7 +61,7 @@ router.post("/addplace", upload.array("images", 7), async (req, res) => {
 });
 
 
-router.get("/getallplaces", async (req, res) => {
+router.get("/getallplaces", async (req, res) => {        //get all places API
 
     try {
         const places = await Place.find({})
@@ -74,7 +74,7 @@ router.get("/getallplaces", async (req, res) => {
 });
 
 
-router.patch('/deleteplace', async (req, res) => {
+router.patch('/deleteplace', async (req, res) => {      //delete places API
 
     const { _id } = req.body;
 
@@ -102,7 +102,7 @@ router.patch('/deleteplace', async (req, res) => {
 });
 
 
-router.post("/getplacebyid", async (req, res) => {
+router.post("/getplacebyid", async (req, res) => {      //Get places by ID API
 
 
     const placeid = req.body.placeid
@@ -117,7 +117,7 @@ router.post("/getplacebyid", async (req, res) => {
 
 });
 
-router.post('/like', async (req, res) => {
+router.post('/like', async (req, res) => {               //Like button API
     const { placeId, userId } = req.body;
 
     try {
@@ -141,7 +141,7 @@ router.post('/like', async (req, res) => {
 });
 
 
-router.post('/unlike', async (req, res) => {
+router.post('/unlike', async (req, res) => {           //unlike place API
     const { placeId, userId } = req.body;
 
     try {
@@ -169,7 +169,7 @@ router.post('/unlike', async (req, res) => {
 });
 
 
-router.post('/check-like', async (req, res) => {
+router.post('/check-like', async (req, res) => {               //check like API
     const { placeId, userId } = req.body;
 
     try {
@@ -189,7 +189,7 @@ router.post('/check-like', async (req, res) => {
 
 
 
-router.post("/getdo", async (req, res) => {
+router.post("/getdo", async (req, res) => {                 //Get DO catogery API
     const placeIds = JSON.parse(req.body.do);
     try {
         const places = await Place.find({ _id: { $in: placeIds } });
@@ -200,7 +200,7 @@ router.post("/getdo", async (req, res) => {
 });
 
 
-router.post("/geteat", async (req, res) => {
+router.post("/geteat", async (req, res) => {               //Get EAT catogery API
     const placeIds = JSON.parse(req.body.eat);
     try {
         const places = await Place.find({ _id: { $in: placeIds } });
@@ -211,7 +211,7 @@ router.post("/geteat", async (req, res) => {
 });
 
 
-router.post("/getstay", async (req, res) => {
+router.post("/getstay", async (req, res) => {             //Get STAY catogery API
     const placeIds = JSON.parse(req.body.stay);
     try {
         const places = await Place.find({ _id: { $in: placeIds } });
@@ -222,7 +222,29 @@ router.post("/getstay", async (req, res) => {
 });
 
 
+router.patch('/editplace', async (req, res) => {
+    try {
+      const { _id, name, description, phonenumber, city, address,googlemaplink} = req.body;
+      const updatedPlace = await Place.findByIdAndUpdate(_id, {
+        name,
+        description,
+        phonenumber,
+        city,
+        address,
+        googlemaplink
 
+      }, { new: true });
+  
+      if (!updatedPlace) {
+        return res.status(404).json({ message: 'Place not found' });
+      }
+  
+      res.status(200).json({ message: 'Place updated successfully', place: updatedPlace });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
 
 
 
